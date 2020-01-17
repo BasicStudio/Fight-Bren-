@@ -42,6 +42,15 @@ p {
   height: 100%;
   width: 100%;
 }
+#console {
+  height: 60px;
+  width: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#console.scrollbar {
+  display: none;
+}
 @font-face{
   font-family: def;
   src: url(Fairies.otf);
