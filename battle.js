@@ -8,8 +8,18 @@ var enemy = {
   power: 50,
 }
 
+function postRED(content, postTo) {
+  var postRED = document.createElement("P")
+  postRED.id = "post"
+  postRED.innerHTML = content
+  postRED.style.color = "red"
+  document.getElementById(postTo).appendChild(postRED);
+}
+
 var username = prompt("Name your Bren:");
 document.getElementById("name").innerText = username;
+
+var cons = document.getElementById("console");
 
 var playerHealth = Math.floor(Math.random() * player.health);
 var enemyHealth = Math.floor(Math.random() * enemy.health);
@@ -17,6 +27,14 @@ var enemyHealth = Math.floor(Math.random() * enemy.health);
 function newHealth(){
   enemyHealth = Math.floor(Math.random() * enemy.health);
   playerHealth = Math.floor(Math.random() * player.health);
+}
+function whoDied(){
+  if(playerHealth < 0){
+    postRED(username + " died", "console")
+  }
+  if(enemyHealth < 0){
+    postRED("enemy died", "console")
+  }
 }
 
 const displayHealth = ()=> {
@@ -37,13 +55,15 @@ function enemyAttack(){
     const enemyDamage = Math.floor(Math.random() * enemy.power);
     playerHealth -= enemyDamage;
     if(playerHealth < 0){
+      whoDied();
       newHealth();
       displayHealth();
     }
-    console.log(enemyDamage + " damage delt")
+    post("Enemy did " + enemyDamage + " damage", "console")
     displayHealth();
     message.innerText = username + "'s Turn"
     buttonStatus(false)
+    cons.scrollBy(0, 100)
   }, 1000)
 }
 
@@ -60,13 +80,15 @@ const attack = ()=> {
   var damage = Math.floor(Math.random() * player.power);
   enemyHealth -= damage;
   if(enemyHealth < 0){
+    whoDied();
     newHealth();
     displayHealth();
   }
   buttonStatus(true)
   enemyAttack();
   displayHealth();
-  console.log(damage + " damage delt")
+  post(username + " did " + damage + " damage", "console")
+  cons.scrollBy(0, 100)
 }
 
 displayHealth();
